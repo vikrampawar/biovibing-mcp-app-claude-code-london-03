@@ -88,7 +88,7 @@ export function ScoreRing({ score, label, color, size = 100 }: { score: number; 
   const offset = circumference - (score / 100) * circumference;
 
   return (
-    <div className="score-ring">
+    <div style={{ flexShrink: 0 }}>
       <svg width={size} height={size}>
         <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#2a2a3a" strokeWidth="8" />
         <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={color} strokeWidth="8"
@@ -104,9 +104,9 @@ export function ScoreRing({ score, label, color, size = 100 }: { score: number; 
 
 export function MetricCard({ value, label }: { value: string | number; label: string }) {
   return (
-    <div className="metric-card">
-      <div className="metric-value">{value}</div>
-      <div className="metric-label">{label}</div>
+    <div style={{ background: "#1a1d2e", borderRadius: 8, padding: "0.5rem 0.75rem", textAlign: "center" }}>
+      <div style={{ fontSize: "1.125rem", fontWeight: 700, color: "#f1f5f9" }}>{value}</div>
+      <div style={{ fontSize: "0.625rem", color: "#64748b", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: "0.125rem" }}>{label}</div>
     </div>
   );
 }
@@ -161,19 +161,19 @@ export function BarChart({ data, label, color, unit }: { data: { day: string; va
   const bucketLabel = data.length <= 14 ? "daily" : data.length <= 90 ? "weekly avg" : "monthly avg";
 
   return (
-    <div className="chart-card">
-      <div className="chart-label">
+    <div style={{ background: "#1a1d2e", borderRadius: 10, padding: "0.875rem" }}>
+      <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "#94a3b8", marginBottom: "0.75rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         {label}
-        <span className="chart-bucket">{data.length}d · {bucketLabel}</span>
+        <span style={{ fontSize: "0.625rem", fontWeight: 400, color: "#475569" }}>{data.length}d · {bucketLabel}</span>
       </div>
-      <div className="bar-chart">
+      <div style={{ display: "flex", gap: 4, alignItems: "flex-end", height: 100 }}>
         {aggregated.map(d => (
-          <div key={d.day} className="bar-col">
-            <div className="bar-value">{d.value}{unit}</div>
-            <div className="bar-track">
-              <div className="bar-fill" style={{ height: `${(d.value / max) * 100}%`, backgroundColor: color }} />
+          <div key={d.day} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+            <div style={{ fontSize: "0.6rem", color: "#94a3b8" }}>{d.value}{unit}</div>
+            <div style={{ width: "100%", height: 70, background: "#0f1117", borderRadius: 4, display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+              <div style={{ width: "100%", height: `${(d.value / max) * 100}%`, backgroundColor: color, borderRadius: "4px 4px 0 0", transition: "height 0.5s ease", minHeight: 2 }} />
             </div>
-            <div className="bar-day">{d.label}</div>
+            <div style={{ fontSize: "0.6rem", color: "#475569" }}>{d.label}</div>
           </div>
         ))}
       </div>
@@ -194,17 +194,17 @@ export function SleepStages({ deep, rem, light, awake }: { deep: number; rem: nu
   ];
 
   return (
-    <div className="chart-card">
-      <div className="chart-label">Sleep Stages (last night)</div>
-      <div className="stages-bar">
+    <div style={{ background: "#1a1d2e", borderRadius: 10, padding: "0.875rem" }}>
+      <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "#94a3b8", marginBottom: "0.75rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>Sleep Stages (last night)</div>
+      <div style={{ display: "flex", height: 20, borderRadius: 6, overflow: "hidden", gap: 2 }}>
         {stages.map(s => (
-          <div key={s.label} className="stage-segment" style={{ width: `${toPct(s.value)}%`, backgroundColor: s.color }} title={`${s.label}: ${toH(s.value)}h`} />
+          <div key={s.label} style={{ width: `${toPct(s.value)}%`, backgroundColor: s.color, transition: "width 0.5s ease", minWidth: 4 }} title={`${s.label}: ${toH(s.value)}h`} />
         ))}
       </div>
-      <div className="stages-legend">
+      <div style={{ display: "flex", gap: "0.75rem", marginTop: "0.5rem", flexWrap: "wrap" }}>
         {stages.map(s => (
-          <div key={s.label} className="legend-item">
-            <span className="legend-dot" style={{ backgroundColor: s.color }} />
+          <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 4, fontSize: "0.7rem", color: "#94a3b8" }}>
+            <span style={{ width: 8, height: 8, borderRadius: "50%", flexShrink: 0, backgroundColor: s.color }} />
             <span>{s.label} {toH(s.value)}h</span>
           </div>
         ))}
@@ -237,26 +237,29 @@ export function SleepDebtChart({ data, cumulative }: { data: { day: string; slep
   const bucketLabel = data.length <= 14 ? "daily" : data.length <= 90 ? "weekly avg" : "monthly avg";
 
   return (
-    <div className="chart-card">
-      <div className="chart-label">
+    <div style={{ background: "#1a1d2e", borderRadius: 10, padding: "0.875rem" }}>
+      <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "#94a3b8", marginBottom: "0.75rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         Sleep Debt
-        <span className="debt-total" style={{ color: statusColor }}>
+        <span style={{ fontWeight: 700, fontSize: "0.75rem", color: statusColor }}>
           {cumulative > 0 ? `${Math.round(cumulative)}h debt` : `${Math.abs(Math.round(cumulative))}h surplus`}
-          <span className="chart-bucket" style={{ marginLeft: "0.5rem" }}>{bucketLabel}</span>
+          <span style={{ fontSize: "0.625rem", fontWeight: 400, color: "#475569", marginLeft: "0.5rem" }}>{bucketLabel}</span>
         </span>
       </div>
-      <div className="debt-rows">
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
         {aggregated.map(d => (
-          <div key={d.day} className="debt-row">
-            <span className="debt-day">{d.label}</span>
-            <div className="debt-bar-track">
-              <div className="debt-bar-fill" style={{
+          <div key={d.day} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <span style={{ fontSize: "0.65rem", color: "#64748b", width: "2.5rem", textAlign: "right" }}>{d.label}</span>
+            <div style={{ flex: 1, height: 14, background: "#0f1117", borderRadius: 4, position: "relative", overflow: "hidden" }}>
+              <div style={{
+                height: "100%",
+                borderRadius: 4,
+                transition: "width 0.5s ease",
                 width: `${Math.min((d.sleptHours / 10) * 100, 100)}%`,
                 backgroundColor: d.sleptHours >= 7.5 ? "#10b981" : d.sleptHours >= 6 ? "#f59e0b" : "#ef4444",
               }} />
-              <div className="debt-target-line" style={{ left: "75%" }} />
+              <div style={{ position: "absolute", top: 0, bottom: 0, width: 2, background: "rgba(255,255,255,0.3)", left: "75%" }} />
             </div>
-            <span className="debt-hours">{d.sleptHours}h</span>
+            <span style={{ fontSize: "0.65rem", color: "#94a3b8", width: "2.5rem" }}>{d.sleptHours}h</span>
           </div>
         ))}
       </div>
@@ -270,10 +273,10 @@ export function ComparisonRow({ label, thisWeek, lastWeek, unit, higherIsBetter 
   const isGood = higherIsBetter ? diff >= 0 : diff <= 0;
 
   return (
-    <div className="comparison-row">
-      <span className="comp-label">{label}</span>
-      <span className="comp-values">{lastWeek}{unit} → {thisWeek}{unit}</span>
-      <span className={`comp-change ${isGood ? "good" : "bad"}`}>{diff >= 0 ? "+" : ""}{pct}%</span>
+    <div style={{ display: "flex", alignItems: "center", padding: "0.375rem 0", borderBottom: "1px solid #1e2030", fontSize: "0.75rem" }}>
+      <span style={{ flex: 1, color: "#94a3b8" }}>{label}</span>
+      <span style={{ color: "#cbd5e1", marginRight: "0.75rem" }}>{lastWeek}{unit} → {thisWeek}{unit}</span>
+      <span style={{ fontWeight: 600, minWidth: "3.5rem", textAlign: "right", color: isGood ? "#10b981" : "#ef4444" }}>{diff >= 0 ? "+" : ""}{pct}%</span>
     </div>
   );
 }

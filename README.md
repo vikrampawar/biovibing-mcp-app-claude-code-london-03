@@ -98,6 +98,11 @@ Opens Skybridge DevTools at `http://localhost:3000/` for local testing.
 - Vite for widget bundling
 - Cloudflare Tunnel for remote access
 
+## Demo
+
+- [Video demo](demo.mp4)
+- [Claude.ai conversation](https://claude.ai/share/e8381e93-1f2a-41de-a047-9e69f7b0bb9a)
+
 ## Links
 
 - [MCP Apps spec](https://blog.modelcontextprotocol.io/posts/2026-01-26-mcp-apps/)

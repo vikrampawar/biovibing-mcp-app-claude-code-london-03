@@ -1,4 +1,3 @@
-import "@/index.css";
 import { mountWidget } from "skybridge/web";
 import { useToolInfo, useSendFollowUpMessage } from "../helpers.js";
 import { ScoreRing, SleepStages, SleepDebtChart, MetricCard, BarChart, InsightsPanel, ActionButtons } from "../components.js";
@@ -7,12 +6,55 @@ function avg(arr: number[]) {
   return arr.length ? Math.round((arr.reduce((a, b) => a + b, 0) / arr.length) * 10) / 10 : 0;
 }
 
+const dashboardStyle: React.CSSProperties = {
+  fontFamily: "'Inter', sans-serif",
+  color: "#e2e8f0",
+  background: "#0f1117",
+  padding: "1.25rem",
+  minHeight: "100%",
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  margin: 0,
+  boxSizing: "border-box",
+};
+
+const headerStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "baseline",
+  gap: "0.75rem",
+};
+
+const sectionLabelStyle: React.CSSProperties = {
+  fontSize: "0.75rem",
+  fontWeight: 600,
+  color: "#64748b",
+  textTransform: "uppercase",
+  letterSpacing: "0.05em",
+  borderTop: "1px solid #1e2030",
+  paddingTop: "0.75rem",
+  marginTop: "0.25rem",
+};
+
+const scoresRowStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: "1rem",
+};
+
+const metricCardsStyle: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gap: "0.5rem",
+  flex: 1,
+};
+
 function HealthDashboard() {
   const { output } = useToolInfo<"health-dashboard">();
   const sendFollowUp = useSendFollowUpMessage();
 
   if (!output) {
-    return <div className="dashboard loading"><div className="loading-text">Loading...</div></div>;
+    return <div style={{ ...dashboardStyle, alignItems: "center", justifyContent: "center" }}><div style={{ color: "#64748b", fontSize: "0.875rem" }}>Loading...</div></div>;
   }
 
   const days = output.days as any[];
@@ -31,10 +73,10 @@ function HealthDashboard() {
   };
 
   return (
-    <div className="dashboard">
-      <div className="header">
-        <h1>Health Overview</h1>
-        <span className="subtitle">Oura Ring · {numDays} days</span>
+    <div style={dashboardStyle}>
+      <div style={headerStyle}>
+        <h1 style={{ fontSize: "1.125rem", fontWeight: 700, color: "#f1f5f9", margin: 0 }}>Health Overview</h1>
+        <span style={{ fontSize: "0.75rem", color: "#64748b" }}>Oura Ring · {numDays} days</span>
       </div>
 
       <InsightsPanel insights={insights} />
@@ -42,11 +84,11 @@ function HealthDashboard() {
       <ActionButtons onAsk={(msg) => sendFollowUp(msg)} />
 
       {/* Today */}
-      <div className="section-label">Today · {today.day}</div>
-      <div className="scores-row">
+      <div style={sectionLabelStyle}>Today · {today.day}</div>
+      <div style={scoresRowStyle}>
         <ScoreRing score={today.sleep.score} label="Sleep" color="#8b5cf6" />
         <ScoreRing score={today.readiness.score} label="Readiness" color="#10b981" />
-        <div className="metric-cards">
+        <div style={metricCardsStyle}>
           <MetricCard value={today.sleep.avgHrvMs} label="HRV (ms)" />
           <MetricCard value={today.sleep.avgRestingHrBpm} label="RHR (bpm)" />
           <MetricCard value={today.activity.steps.toLocaleString()} label="Steps" />
@@ -64,11 +106,11 @@ function HealthDashboard() {
       {/* Yesterday */}
       {yesterday && (
         <>
-          <div className="section-label">Yesterday · {yesterday.day}</div>
-          <div className="scores-row">
+          <div style={sectionLabelStyle}>Yesterday · {yesterday.day}</div>
+          <div style={scoresRowStyle}>
             <ScoreRing score={yesterday.sleep.score} label="Sleep" color="#7c3aed" size={80} />
             <ScoreRing score={yesterday.readiness.score} label="Readiness" color="#059669" size={80} />
-            <div className="metric-cards">
+            <div style={metricCardsStyle}>
               <MetricCard value={yesterday.sleep.avgHrvMs} label="HRV" />
               <MetricCard value={yesterday.sleep.avgRestingHrBpm} label="RHR" />
               <MetricCard value={yesterday.activity.steps.toLocaleString()} label="Steps" />
@@ -81,11 +123,11 @@ function HealthDashboard() {
       {/* Period average */}
       {numDays > 2 && (
         <>
-          <div className="section-label">{numDays}-Day Average</div>
-          <div className="scores-row">
+          <div style={sectionLabelStyle}>{numDays}-Day Average</div>
+          <div style={scoresRowStyle}>
             <ScoreRing score={Math.round(periodAvg.sleepScore)} label="Sleep" color="#a78bfa" size={80} />
             <ScoreRing score={Math.round(periodAvg.readinessScore)} label="Readiness" color="#34d399" size={80} />
-            <div className="metric-cards">
+            <div style={metricCardsStyle}>
               <MetricCard value={periodAvg.hrv} label="HRV" />
               <MetricCard value={periodAvg.rhr} label="RHR" />
               <MetricCard value={periodAvg.steps.toLocaleString()} label="Steps" />
