@@ -108,4 +108,6 @@ Opens Skybridge DevTools at `http://localhost:3000/` for local testing.
 - [MCP Apps spec](https://blog.modelcontextprotocol.io/posts/2026-01-26-mcp-apps/)
 - [Skybridge docs](https://docs.skybridge.tech)
 - [Hacknight starter](https://github.com/alpic-ai/claude-hacknight-starter-20-02-2026)
-- Inspired by [bio-vibing](https://github.com/Itsokay-co/bio-vibing)
+## Inspiration
+
+BioVibing was inspired by [Dr Chad Okay](https://github.com/itsokay-co)'s [bio-vibing](https://github.com/Itsokay-co/bio-vibing) project. Chad is a doctor, developer, and founder of [Suna Health](https://suna.health) — a startup building wearable hardware for gut health monitoring. He's one of those people who does it all: ships code, builds hardware, uses Claude Code and Obsidian workflows daily, and is always ready to give a talk with a smile. His work at the intersection of medicine and technology is genuinely inspiring, and I used his bio-vibing repo as a starting point for this hackathon project.
